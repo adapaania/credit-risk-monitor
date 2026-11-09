@@ -12,12 +12,12 @@ A team project using SEC financial statement data to monitor credit risk.
 
 Source: [SEC Financial Statement Data Sets](https://www.sec.gov/data-research/sec-markets-data/financial-statement-data-sets).
 
-Planned coverage: two years (eight quarters). Confirm the exact quarter range before downloading; `2026q2` is the quarter used in the initial folder example.
+Coverage: 2023 Q1 through 2025 Q4 (three years, 12 quarters).
 
 ## Setup
 
 1. Clone this repository to your computer.
-2. Download the agreed SEC quarterly data sets and extract each into `data/raw/<quarter>/`, for example `data/raw/2026q2/`.
+2. Run `python3 scripts/download_sec_data.py` (requires Python 3.11+ and curl) to download, verify, and extract all 12 quarters into `data/raw/<quarter>/`, for example `data/raw/2023q1/`. The script keeps the original ZIPs and writes a local SHA-256 download manifest.
 3. Run the database setup script once it is added. No setup script is available yet.
 
 Raw data stays on each teammate's computer and is excluded from Git by `.gitignore`.
