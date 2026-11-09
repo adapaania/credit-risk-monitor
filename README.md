@@ -28,6 +28,10 @@ The current setup creates database objects only. SEC loading, synthetic data gen
 
 Raw data stays on each teammate's computer and is excluded from Git by `.gitignore`.
 
+## Shortlist data quality
+
+Run `python3 scripts/check_completeness.py` after downloading the data to audit the 50-company shortlist. Read [the completeness report](docs/data_quality/REPORT.md) and its accompanying company/filing CSVs and JSON scan log. This checks selected standard-tag availability, not fully normalized ratio readiness; debt definitions, duration conversion, and company-specific tags still require review.
+
 ## Project structure
 
 ```text

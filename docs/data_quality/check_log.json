@@ -1,0 +1,36 @@
+{
+  "checked_at_utc": "2026-11-09T22:50:07.850472+00:00",
+  "companies": 50,
+  "selected_filings": 573,
+  "input_batches": [
+    "2023q1",
+    "2023q2",
+    "2023q3",
+    "2023q4",
+    "2024q1",
+    "2024q2",
+    "2024q3",
+    "2024q4",
+    "2025q1",
+    "2025q2",
+    "2025q3",
+    "2025q4"
+  ],
+  "exclusions": {
+    "non_USD_or_dimensional": 40007
+  },
+  "log": [
+    "2023q1: scanned 3,428,670 numeric rows; retained 193 candidate facts",
+    "2023q2: scanned 3,393,990 numeric rows; retained 402 candidate facts",
+    "2023q3: scanned 3,572,434 numeric rows; retained 428 candidate facts",
+    "2023q4: scanned 3,699,124 numeric rows; retained 458 candidate facts",
+    "2024q1: scanned 3,428,694 numeric rows; retained 395 candidate facts",
+    "2024q2: scanned 3,426,170 numeric rows; retained 424 candidate facts",
+    "2024q3: scanned 3,521,878 numeric rows; retained 412 candidate facts",
+    "2024q4: scanned 3,705,078 numeric rows; retained 440 candidate facts",
+    "2025q1: scanned 3,658,551 numeric rows; retained 372 candidate facts",
+    "2025q2: scanned 3,409,930 numeric rows; retained 402 candidate facts",
+    "2025q3: scanned 3,720,081 numeric rows; retained 407 candidate facts",
+    "2025q4: scanned 3,832,977 numeric rows; retained 446 candidate facts"
+  ]
+}
