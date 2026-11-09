@@ -35,7 +35,7 @@ TAGS = {
     'revenue': ['RevenueFromContractWithCustomerExcludingAssessedTax',
                 'RevenueFromContractWithCustomerIncludingAssessedTax','Revenues','SalesRevenueNet'],
     'operating_income': ['OperatingIncomeLoss'],
-    'interest_expense': ['InterestExpenseNonOperating','InterestAndDebtExpense','InterestExpense'],
+    'interest_expense': ['InterestExpenseNonoperating','InterestAndDebtExpense','InterestExpense'],
 }
 # Debt alternatives are audited separately, rather than silently mixing definitions.
 DEBT_TAGS = {'LongTermDebtCurrent','LongTermDebtNoncurrent','LongTermDebt',

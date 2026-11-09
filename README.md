@@ -32,6 +32,8 @@ Raw data stays on each teammate's computer and is excluded from Git by `.gitigno
 
 Run `python3 scripts/check_completeness.py` after downloading the data to audit the 50-company shortlist. Read [the completeness report](docs/data_quality/REPORT.md) and its accompanying company/filing CSVs and JSON scan log. This checks selected standard-tag availability, not fully normalized ratio readiness; debt definitions, duration conversion, and company-specific tags still require review.
 
+The [resolved audit](docs/data_quality/resolved/REPORT.md) supersedes the initial results: it adds SEC company-facts supplements, boundary filing batches, exact reporting dates, quarter normalization, and explicit sample decisions. Follow its reproduction instructions to create the local 120-row, 10-company pilot for current-ratio and interest-coverage work. Debt candidates remain subject to disclosure and lease-basis validation. Both raw and processed financial data stay local.
+
 ## Project structure
 
 ```text

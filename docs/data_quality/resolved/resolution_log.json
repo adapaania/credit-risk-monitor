@@ -1,0 +1,232 @@
+{
+  "checked_at_utc": "2026-11-09T23:04:20.025297+00:00",
+  "companies": 50,
+  "reporting_dates": 599,
+  "metrics": {
+    "assets": {
+      "present": 599
+    },
+    "current_assets": {
+      "present": 599
+    },
+    "current_liabilities": {
+      "present": 599
+    },
+    "revenue": {
+      "present": 599
+    },
+    "operating_income": {
+      "present": 543,
+      "unavailable": 56
+    },
+    "interest_expense": {
+      "present": 469,
+      "unavailable": 130
+    }
+  },
+  "normalized_quarter_dates": 415,
+  "with_debt_dates": 74,
+  "metadata_discrepancies": 24,
+  "companyfacts_hashes": [
+    {
+      "cik": 320193,
+      "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+    },
+    {
+      "cik": 789019,
+      "sha256": "8c1903c041f5c27e86ed15f37debb1f41882b7904bba129ef9edc76478b1e8ea"
+    },
+    {
+      "cik": 1652044,
+      "sha256": "f87bc183f74b45ecf9a0933e0e0a1b6b97ead51a9d29367a7dae436574e1c1d0"
+    },
+    {
+      "cik": 1326801,
+      "sha256": "f8e539cea9d363752df2f9bb33078c19ae897ff7f34d49fe4d9a732d032b94f7"
+    },
+    {
+      "cik": 1341439,
+      "sha256": "fe93b258bc0ba8f3076ddebb5d8bb91c46deaa1f7b06d2ff2e3eaed85fee8a63"
+    },
+    {
+      "cik": 796343,
+      "sha256": "86a5689aa9aa7b0f9e95be21b48b0305376e014c8dbf3b8bb3b4b131f1b6a0c4"
+    },
+    {
+      "cik": 1108524,
+      "sha256": "a89be8715e056f1cadffdcd9616676ec1949107233b11f430a8183f88ca4ae15"
+    },
+    {
+      "cik": 896878,
+      "sha256": "456f89ae1757bb5a6ee0990f8b759e3d694222b0107c33ee4b163ee85a478d8a"
+    },
+    {
+      "cik": 1373715,
+      "sha256": "427e2a9a58b944b34e0c7bb9560fdb7183de326e4fa9d880b5957e3025a0687e"
+    },
+    {
+      "cik": 858877,
+      "sha256": "69ccd0bc491edf4ef2191e8813ebc1766c0daf00c9e3d1aaa182d24b2e39e0df"
+    },
+    {
+      "cik": 51143,
+      "sha256": "10fa1fafa25440b2159e2054dfe47628ba4ed353a258f526704cf9beda432bb8"
+    },
+    {
+      "cik": 8670,
+      "sha256": "07750ac1435f5c4569011de779d0c4e42bd293b9355eba6b28d62fac77c68a6d"
+    },
+    {
+      "cik": 50863,
+      "sha256": "9c568557a91cfbc234c999183d6434f8bbf7b8ebf2f29577f28d761a9becb59d"
+    },
+    {
+      "cik": 2488,
+      "sha256": "4c29484ff062a77b0dde3a0d0b3439f807ccd2d44f9b568a52b5eabbc2b2464c"
+    },
+    {
+      "cik": 1045810,
+      "sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff"
+    },
+    {
+      "cik": 804328,
+      "sha256": "94dcddda02f3722dcdb325770eb0726c01a95bf304b47ba6255fbddceaca19f0"
+    },
+    {
+      "cik": 97476,
+      "sha256": "5ac0e3044f2368fe3dcce665440317bda9ce766feb27fd382e563593192ee80d"
+    },
+    {
+      "cik": 6281,
+      "sha256": "f468425da29412efbec29798ecd0f9cc719edd5766d734c5c3fc1092a3fe237c"
+    },
+    {
+      "cik": 6951,
+      "sha256": "65ecfedd5bfd3768d30286b52badee080c655cc8d1077524bdb6ca8928380fa7"
+    },
+    {
+      "cik": 707549,
+      "sha256": "46289dd93caeb9cf61ad8a0884f51999549c8179f17ad7b0ef9bdadfe9aff626"
+    },
+    {
+      "cik": 21344,
+      "sha256": "87a4173fcd3d662d18d19e0e885095aa5e3812b74c54d1ee55808ff1540a8081"
+    },
+    {
+      "cik": 77476,
+      "sha256": "4a734cc934f3cf9f129fc15657589d4c6c82138f1bd889023c11170d97990d8d"
+    },
+    {
+      "cik": 80424,
+      "sha256": "c6ae61e012a2b4aadeaa49400847842dd637a4a4a03cbdf4dfff27dffd78f8d1"
+    },
+    {
+      "cik": 21665,
+      "sha256": "334b53709b5e5d67c058029e4f6c27a8a6395c46b4e707b248e1f5b0b8fb49b2"
+    },
+    {
+      "cik": 55785,
+      "sha256": "1017f427c12ec6bab41cfa7a0ca09c7b47af1410aae13397a649b394109f2686"
+    },
+    {
+      "cik": 40704,
+      "sha256": "3dd0552f7e909fcef40d3d99b413e9fa360fd1110ebbce0ce507ed71e611aeda"
+    },
+    {
+      "cik": 1103982,
+      "sha256": "5b1da475f3941c1bd5d2c07d1909f0d73a3b83d06bd5546cb0541c0cadf53a4b"
+    },
+    {
+      "cik": 47111,
+      "sha256": "eda9c4b82fe8dfa45bce49e7c37d28940fd5f7496cfb8b37e3e6bb93ca61f9e3"
+    },
+    {
+      "cik": 16732,
+      "sha256": "7fe30aa1d0907099e195b1a37f491261e5ed59d466e4174f53215b5f1c345bb4"
+    },
+    {
+      "cik": 23217,
+      "sha256": "900d101a9bcf39f363d19108a72eb39fdd309bd01c3a97e09410868b50c71331"
+    },
+    {
+      "cik": 1637459,
+      "sha256": "0f08734d95cc07e9bd0c1869a2307448ed8c0bdd1a74f53e6e4267607231b4de"
+    },
+    {
+      "cik": 313927,
+      "sha256": "812667819bcd18f13c2f87b65548b882ad260044a1a84517771ec1b0083b9324"
+    },
+    {
+      "cik": 21076,
+      "sha256": "f9b61f8b3fed2f3b2a75c062d778ff639e9a9467fbd186d3c1bf3d23d90ce5ce"
+    },
+    {
+      "cik": 63754,
+      "sha256": "4512b6af93c37526ee245f356c5867ef2822a185a8bacf8e487f6a954dd6b308"
+    },
+    {
+      "cik": 1128928,
+      "sha256": "c7f2fbdc039de17d69c63c297747bc3291833f1d8cf3dff7b022d2fd13c9d4ca"
+    },
+    {
+      "cik": 104169,
+      "sha256": "49330f98609f70fcef4054edc90bc811398a58c4bf26dc0b218d607967a8dbe4"
+    },
+    {
+      "cik": 27419,
+      "sha256": "eb15a2cd524e99ff27675db78840d039ec4a68b9cc2dcb10accbcb299933a487"
+    },
+    {
+      "cik": 354950,
+      "sha256": "aaf03befa1695d87ce1252bc08ca278b65be63782e46dc0b2858aab7a32c1be2"
+    },
+    {
+      "cik": 60667,
+      "sha256": "7912551d61433f5e7e863ac602ebf24ee1484699e10aa556534f0055fff2ea7d"
+    },
+    {
+      "cik": 909832,
+      "sha256": "b675ced201b27ede2b0d26ca6fd873befe96a1afa9679339a2d0b964187dcdff"
+    },
+    {
+      "cik": 109198,
+      "sha256": "1b8f7be3fed954f682ae56ebe9c56a245f4df3640b92181a2d44d6e086a4905b"
+    },
+    {
+      "cik": 745732,
+      "sha256": "6310bb034c7b7b228799f757b5117d1e6a173af3ff6304b656e851f492ccfaf9"
+    },
+    {
+      "cik": 29534,
+      "sha256": "16157a14c6c91f04a8b3e89ccedfc91ee0d5ea6978f8c6ed1d25d8cfe73541cf"
+    },
+    {
+      "cik": 935703,
+      "sha256": "e848ce86b0df51740450fc079721862fb958621c0c62a59a739af96ff8bdb5ab"
+    },
+    {
+      "cik": 764478,
+      "sha256": "c9cd833d8edc99921ff5d5fb26d6b5b7ef2a2109ebbba7107fb1a4127c3c7149"
+    },
+    {
+      "cik": 56873,
+      "sha256": "f960cd5977a109fbba07f6fbb5da02280c3c4b71e4f89e01f7e46bd4610fe1a0"
+    },
+    {
+      "cik": 866787,
+      "sha256": "c6061b68ff1a580126db4831d3d7de364eccd57e9f8dc6b019b763b4bf441758"
+    },
+    {
+      "cik": 898173,
+      "sha256": "d8455ae8b64585f733c464df366495c4dd2a4ba99e323437a357fe1ce2e1e69e"
+    },
+    {
+      "cik": 916365,
+      "sha256": "ca98edc4a5cbbfd95c4d2a25b12f151929153496e810f065202e1d17c89e69f3"
+    },
+    {
+      "cik": 1403568,
+      "sha256": "61331566ead1af34f46eabe3278cb4d986819bf8c6c06c60e41b11e80365c69f"
+    }
+  ]
+}

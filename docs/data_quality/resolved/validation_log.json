@@ -1,0 +1,9 @@
+{
+  "checked_at_utc": "2026-11-09T23:04:37.359946+00:00",
+  "status": "passed",
+  "unique_reporting_dates": 599,
+  "pilot_companies": 10,
+  "pilot_rows": 120,
+  "derived_values_verified_against_source_provenance": 382,
+  "pilot_denominators_positive": true
+}

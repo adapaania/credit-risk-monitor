@@ -1,0 +1,51 @@
+cik,company,reporting_dates,six_metric_dates,normalized_quarter_dates,debt_ready_dates,unresolved_metrics
+320193,Apple,12,3,3,0,interest_expense
+789019,Microsoft,12,12,12,0,
+1652044,Alphabet,12,12,12,0,
+1326801,Meta Platforms,12,7,4,0,interest_expense
+1341439,Oracle,12,12,12,3,
+796343,Adobe,12,12,12,0,
+1108524,Salesforce,12,5,3,0,interest_expense
+896878,Intuit,12,12,12,0,
+1373715,ServiceNow,12,0,0,0,interest_expense
+858877,Cisco Systems,12,12,11,0,
+51143,IBM,12,0,0,0,operating_income
+8670,Automatic Data Processing,12,0,0,0,operating_income;interest_expense
+50863,Intel,12,12,12,0,
+2488,Advanced Micro Devices,12,12,12,11,
+1045810,NVIDIA,12,12,12,0,
+804328,Qualcomm,12,12,12,3,
+97476,Texas Instruments,12,12,12,0,
+6281,Analog Devices,12,12,12,1,
+6951,Applied Materials,12,12,12,5,
+707549,Lam Research,12,12,11,0,
+21344,Coca-Cola,12,12,12,0,
+77476,PepsiCo,12,12,12,0,
+80424,Procter & Gamble,12,12,11,0,
+21665,Colgate-Palmolive,12,6,4,0,interest_expense
+55785,Kimberly-Clark,12,12,12,0,
+40704,General Mills,12,12,12,1,
+1103982,Mondelez International,12,12,12,0,
+47111,Hershey,12,12,12,9,
+16732,Campbell,12,12,12,12,
+23217,Conagra Brands,12,0,0,0,interest_expense
+1637459,Kraft Heinz,12,12,12,0,
+313927,Church & Dwight,12,12,12,5,
+21076,Clorox,12,0,0,0,operating_income
+63754,McCormick,12,12,12,12,
+1128928,Flowers Foods,11,11,9,0,
+104169,Walmart,12,12,12,12,
+27419,Target,12,12,12,0,
+354950,Home Depot,12,12,12,0,
+60667,Lowe's,12,0,0,0,interest_expense
+909832,Costco,12,12,12,0,
+109198,TJX Companies,12,0,0,0,operating_income;interest_expense
+745732,Ross Stores,12,0,0,0,operating_income;interest_expense
+29534,Dollar General,12,5,5,0,interest_expense
+935703,Dollar Tree,12,0,0,0,interest_expense
+764478,Best Buy,12,12,12,0,
+56873,Kroger,12,7,7,0,interest_expense
+866787,AutoZone,12,3,0,0,interest_expense
+898173,O'Reilly Automotive,12,12,12,0,
+916365,Tractor Supply,12,12,11,0,
+1403568,Ulta Beauty,12,0,0,0,interest_expense
