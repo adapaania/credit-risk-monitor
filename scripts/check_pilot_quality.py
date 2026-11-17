@@ -1,4 +1,4 @@
-"""Week 3 data-quality audit of the supplied CSV and its PostgreSQL representation."""
+"""Check the pilot CSV, imported financials, and generated loan terms."""
 import argparse
 import json
 from collections import Counter
@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from pathlib import Path
 from pilot_common import ROOT, QUARTER_METRICS, digest, read_pilot, run_sql
-from verify_week2 import verify
+from verify_data import verify
 from generate_loan_data import build_records
 
 
@@ -100,7 +100,7 @@ def audit(path, database_url=None):
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--csv',required=True,type=Path)
-    p.add_argument('--output',type=Path,default=ROOT/'data/processed/week3_data_quality.json')
+    p.add_argument('--output',type=Path,default=ROOT/'data/processed/data_quality.json')
     a=p.parse_args(); report=audit(a.csv)
     a.output.parent.mkdir(parents=True,exist_ok=True)
     a.output.write_text(json.dumps(report,indent=2)+'\n')

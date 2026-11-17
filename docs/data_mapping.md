@@ -1,41 +1,33 @@
-# Pilot import mapping and provenance
+# Pilot data mapping
 
-The importer consumes the separately supplied 48-column `pilot_10_financials.csv`. It does not require downloading millions of raw SEC facts again and does not claim to populate the four optional raw SEC staging tables. The imported application data covers 10 companies and 120 actual reporting dates in 2023–2025. Raw data and generated files stay local.
+The importer reads `data/processed/pilot_10_financials.csv`. It loads the prepared 120-row pilot, not the raw SEC staging files.
 
-## Application mapping
+| CSV field | Database field or use |
+| --- | --- |
+| `cik`, `company` | Borrower CIK and company name |
+| `accession` | SEC filing reference |
+| `period_end` | Actual reporting date |
+| `source_quarter` | Batch in which the filing appeared |
+| `source_fy` | Original fiscal-year label, kept as reported |
+| `inferred_period` | Fiscal period; `FY` becomes `Q4` for the normalized quarter |
+| `assets`, `current_assets`, `current_liabilities` | Balance-sheet values at the reporting date |
+| `revenue_quarter`, `operating_income_quarter`, `interest_expense_quarter` | Standalone quarter amounts |
+| `filed` | Earliest filing date used for monitoring |
 
-- `cik` identifies a borrower; `company` becomes `company_name`. Optional SIC, state and ticker are null because the pilot does not provide validated reference values.
-- `accession` becomes `accession_number`; `period_end` and `source_quarter` retain their original meanings. A 2026q1 filing batch may support a 2025 reporting date.
-- `source_fy` becomes the stored `fiscal_year` as reported. It is not replaced with `reporting_year`, which is a calendar year. Inconsistent original fiscal labels are preserved, not asserted to be corrected. Reporting drafts group actual reporting dates; future fiscal-year analysis must reconcile source discrepancies.
-- `inferred_period` becomes `fiscal_period`, with `FY` mapped to `Q4` because imported income amounts are standalone quarters. `duration_months` is 3 for every imported row, including Q4.
-- Assets, current assets and current liabilities use the unsuffixed instant values.
-- Revenue, operating income and interest expense use the `_quarter` values. The unsuffixed duration amounts remain in source provenance and are never silently treated as quarterly income.
-- `is_derived` is true if any of those three quarter metrics has status `derived`.
-- Currency is USD, following the source selection policy.
-- `liabilities` and `total_debt` remain null. `total_debt_candidate` is preserved in the source row without being promoted to validated application debt.
+All imported financial amounts are USD. `duration_months` is 3. `is_derived` is true if any quarter amount was calculated from year-to-date values.
 
-## Original source record
+Total liabilities and total debt stay null because they are not validated in this pilot. Debt candidates remain in the original source row. SIC, state, and ticker also stay null until checked reference data is supplied.
 
-`credit.financial_statement_sources` links one source row to each imported statement. It retains the entire original CSV row as JSONB, the input CSV filename and SHA-256 hash, the filing date, fiscal start, source YTD duration in days and import timestamp. This preserves tags, mapping statuses, original YTD amounts, interest scope, source fiscal labels, derivation methods and previous accessions. Source duration in days describes the original YTD period; it is not the duration of the normalized quarter stored in the application table.
+## Source records
 
-`filed_on` is the availability boundary for historical report drafts. Date-level SEC filing information is used without asserting intraday availability. Loan origination occurs the following day. Metadata preservation is verified against the supplied CSV; loading does not independently re-audit original SEC disclosures or resolve cross-filing restatement comparability.
+`credit.financial_statement_sources` stores each complete CSV row as JSON, its filename and SHA-256 hash, filing date, fiscal start, and original duration in days. This keeps the tags, year-to-date amounts, interest scope, calculation methods, and previous filing references available for review. Original duration describes the source period, not the normalized quarter.
 
-## Validation and repeat loading
+A filing batch can be in 2026 even when the financial reporting date is in 2025. Some source fiscal-year labels are inconsistent. Reports group by actual reporting dates instead of treating those labels as corrected fiscal years.
 
-The importer rejects empty input, duplicate headers, incomplete rows, duplicate CIK/date keys, conflicting names, malformed accessions/dates, inconsistent durations, missing source mappings, incomplete quarter provenance, nonfinite amounts and invalid pilot denominators. Negative operating income is accepted. The loader requires complete inputs for this approved pilot; the ratio view itself preserves missing inputs for future/general use.
+## Import checks
 
-All inserts for one financial import occur in one transaction. A shared transaction advisory lock serializes the pilot and synthetic loaders. Reimporting identical input does not duplicate records. Existing conflicting statements or source hashes cause an error and rollback rather than silently replacing historical data. Different accessions for a previously imported borrower/date require an explicit future revision policy. Synthetic loading similarly checks file hashes, recomputes expected seed-based records, and refuses conflicting loans, thresholds or ratings.
+The importer checks company/date duplicates, headers, dates, source tags, quarter calculation references, and required numbers. Negative operating income is allowed. Missing, nonfinite, or nonpositive denominators are rejected for this prepared pilot.
 
-## Data dictionary additions
+A financial import runs in one transaction. Loading the same file again does not add duplicates. Conflicting values or source hashes cause an error instead of replacing existing data. The complete setup uses several steps; see the README for retry instructions.
 
-- `financial_statement_sources.statement_id`: primary key and FK to the normalized statement.
-- `financial_statement_sources.raw_record`: complete source CSV row, string values preserved.
-- `financial_statement_sources.source_sha256`: immutable imported-file fingerprint.
-- `financial_statement_sources.filed_on`: original SEC filing availability date.
-- `loans.synthetic_key`: unique generated business key; nullable for old smoke fixtures.
-- `loan_generation.loan_id`: one generation record per generated loan.
-- `loan_generation.baseline_statement_id`: exact statement used at origination.
-- `loan_generation.generation_seed`, `policy_version`, `input_sha256`, `manifest`: reproducibility and source traceability.
-- `covenants` additionally has a unique loan/metric/effective-start index to support repeatable importing.
-
-The two new tables and the loan key are created by `sql/02_pilot_support.sql`, which can also be applied additively to an existing starter schema. The original Week 2 build does not populate monitoring/snapshot tables. The Week 3 upgrade now populates them and adds business evaluation/closure dates, rating-source references and old/new audit row snapshots; see `week3_monitoring.md`.
+`credit.loan_generation` records each synthetic loan's baseline statement, seed, policy version, and input hash. These details let the team reproduce the generated data. Import checks compare the database to the supplied CSV; they do not repeat the original SEC disclosure review.

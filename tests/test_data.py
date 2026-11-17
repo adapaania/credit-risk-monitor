@@ -17,10 +17,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from generate_loan_data import CR_BANDS, IC_BANDS, build_records, generate, risk_rating
 from load_pilot_data import load as load_pilot
 from load_synthetic_data import load as load_synthetic
-from pilot_common import ROOT, read_pilot, run_sql
-from verify_week2 import verify
+from pilot_common import DEFAULT_PILOT, ROOT, read_pilot, run_sql
+from verify_data import verify
 
-PILOT = Path(os.environ.get('PILOT_CSV', ROOT.parent / 'pilot_10_financials.csv'))
+PILOT = DEFAULT_PILOT
 
 
 def write_csv(path, rows):

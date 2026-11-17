@@ -5,10 +5,10 @@ import sys
 import unittest
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from pilot_common import ROOT,run_sql
-from verify_week3 import verify
+from pilot_common import DEFAULT_PILOT,ROOT,run_sql
+from verify_monitoring import verify
 
-PILOT=Path(os.environ.get('PILOT_CSV',ROOT.parent/'pilot_10_financials.csv'))
+PILOT=DEFAULT_PILOT
 
 FIXTURE='''
 BEGIN;
@@ -52,7 +52,7 @@ class Week3MonitoringTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         enabled=run_sql("SELECT to_regprocedure('credit.test_loan_covenants(bigint,bigint,date)') IS NOT NULL;")
-        if enabled!='t': raise unittest.SkipTest('Install Week 3 with scripts/run_week3.py first')
+        if enabled!='t': raise unittest.SkipTest('Run python3 scripts/project.py monitor first')
 
     def test_pilot_independent_reconciliation(self):
         self.assertEqual(verify(PILOT)['status'],'passed')
@@ -202,6 +202,25 @@ class Week3MonitoringTests(unittest.TestCase):
                 RAISE EXCEPTION 'Report cutoff or CTAS refresh failed'; END IF;
         END $$;
         ROLLBACK;''')
+
+    def test_annual_report_counts_latest_available_filing_once(self):
+        fixture('''INSERT INTO credit.financial_statements(borrower_id,source_quarter,accession_number,
+            period_end,fiscal_year,fiscal_period,duration_months,revenue,operating_income,interest_expense)
+        VALUES(b,'2023q2','revised-report','2023-03-31',2023,'Q1',3,60,24,6)
+        RETURNING statement_id INTO rid;
+        INSERT INTO credit.financial_statement_sources(statement_id,filed_on,fiscal_start,
+            source_duration_days,source_file,source_sha256,raw_record)
+        VALUES(rid,'2023-04-03','2023-01-01',90,'fixture',repeat('0',64),'{}');
+        PERFORM reporting.refresh_reports('2023-04-02');
+        IF NOT EXISTS(SELECT 1 FROM reporting.v_annual_financials WHERE cik=999991513
+                      AND available_quarters=1 AND quarter_revenue_sum=30
+                      AND quarter_operating_income_sum=12 AND quarter_interest_sum=3) THEN
+            RAISE EXCEPTION 'Annual report used a revision before its filing date'; END IF;
+        PERFORM reporting.refresh_reports('2023-04-03');
+        IF NOT EXISTS(SELECT 1 FROM reporting.v_annual_financials WHERE cik=999991513
+                      AND available_quarters=1 AND quarter_revenue_sum=60
+                      AND quarter_operating_income_sum=24 AND quarter_interest_sum=6) THEN
+            RAISE EXCEPTION 'Annual report must use the revision without adding another quarter'; END IF;''')
 
     def test_monthly_exposure_and_watchlist_counts_are_not_multiplied_by_events(self):
         fixture('''UPDATE credit.financial_statements SET current_assets=5,operating_income=-12 WHERE statement_id=s;

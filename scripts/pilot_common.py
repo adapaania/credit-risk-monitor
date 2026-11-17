@@ -11,6 +11,7 @@ from decimal import Decimal, InvalidOperation
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_PILOT = Path(os.environ.get('PILOT_CSV', ROOT / 'data/processed/pilot_10_financials.csv'))
 POLICY_VERSION = 'pilot-v1'
 QUARTER_METRICS = ('revenue', 'operating_income', 'interest_expense')
 
@@ -122,3 +123,9 @@ def run_sql(sql, database_url=None):
     if result.returncode:
         raise RuntimeError(result.stderr.strip())
     return result.stdout.strip()
+
+
+def apply_sql_files(filenames, database_url=None):
+    """Apply SQL files together; a failure rolls back the whole group."""
+    statements = [(ROOT / 'sql' / name).read_text() for name in filenames]
+    run_sql('BEGIN;\nSELECT pg_advisory_xact_lock(51303);\n' + '\n'.join(statements) + '\nCOMMIT;', database_url)

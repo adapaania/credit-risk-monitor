@@ -91,15 +91,24 @@ JOIN credit.financial_statements f USING(statement_id)
 JOIN credit.financial_statement_sources p USING(statement_id);
 
 CREATE OR REPLACE VIEW reporting.v_annual_financials AS
-SELECT ctx.as_of_date,b.cik,b.company_name,extract(year FROM f.period_end)::integer AS calendar_reporting_year,
+WITH available AS (
+    -- Count each reporting date once, using the latest filing known at the cutoff.
+    SELECT DISTINCT ON (f.borrower_id, f.period_end)
+           ctx.as_of_date, f.*
+    FROM reporting.report_context ctx
+    JOIN credit.financial_statements f ON f.period_end<=ctx.as_of_date AND f.duration_months=3
+    JOIN credit.financial_statement_sources p
+      ON p.statement_id=f.statement_id AND p.filed_on<=ctx.as_of_date
+    ORDER BY f.borrower_id, f.period_end, p.filed_on DESC,
+             f.accession_number DESC, f.statement_id DESC
+)
+SELECT f.as_of_date,b.cik,b.company_name,extract(year FROM f.period_end)::integer AS calendar_reporting_year,
        count(*) AS available_quarters,sum(f.revenue) AS quarter_revenue_sum,
        sum(f.operating_income) AS quarter_operating_income_sum,sum(f.interest_expense) AS quarter_interest_sum,
        sum(f.operating_income)/nullif(sum(f.interest_expense),0) AS aggregate_interest_coverage
-FROM reporting.report_context ctx JOIN credit.financial_statements f
-  ON f.period_end<=ctx.as_of_date AND f.duration_months=3
-JOIN credit.financial_statement_sources p ON p.statement_id=f.statement_id AND p.filed_on<=ctx.as_of_date
+FROM available f
 JOIN credit.borrowers b USING(borrower_id)
-GROUP BY ctx.as_of_date,b.cik,b.company_name,extract(year FROM f.period_end);
+GROUP BY f.as_of_date,b.cik,b.company_name,extract(year FROM f.period_end);
 
 CREATE OR REPLACE VIEW reporting.v_watchlist AS
 SELECT ctx.as_of_date,b.cik,b.company_name,w.watchlist_id,w.result_id,w.opened_on,

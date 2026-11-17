@@ -7,7 +7,7 @@ from decimal import Decimal
 from pathlib import Path
 from generate_loan_data import risk_rating
 from pilot_common import ROOT, read_pilot, run_sql
-from verify_week2 import verify as verify_base
+from verify_data import verify as verify_base
 from check_pilot_quality import check_generated_configuration
 
 
@@ -108,7 +108,7 @@ def verify(path,database_url=None):
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--csv',required=True,type=Path)
-    p.add_argument('--output',type=Path,default=ROOT/'data/processed/week3_validation.json')
+    p.add_argument('--output',type=Path,default=ROOT/'data/processed/monitoring_validation.json')
     a=p.parse_args(); result=verify(a.csv)
     a.output.parent.mkdir(parents=True,exist_ok=True)
     a.output.write_text(json.dumps(result,indent=2)+'\n')
