@@ -1,21 +1,25 @@
 # Proposal-aligned implementation plan
 
-Based on the FE513 Fall 2026 project proposal, reviewed November 9, 2026.
+Based on the FE513 Fall 2026 project proposal, updated November 16, 2026.
 This plan translates the proposal into implementation tasks; it is not a new course rubric.
 
 ## Current status
 
 - Shared repository and basic structure exist.
-- SEC Financial Statement Data Sets for 2023 Q1 through 2025 Q4 are downloaded locally, with archive validation and a SHA-256 manifest.
-- Raw data is ignored by Git. Each teammate must download their own copy.
-- Core schema, staging tables, ratio view, initial ER diagram, and schema setup entry point are implemented and validated on PostgreSQL 14. The importer, generated loan data, risk logic, reports, roles, benchmarks, and complete data rebuild remain pending.
-- Teammate invitations still need their GitHub usernames.
+- Aania prepared and audited SEC data on her machine; the clone does not include raw SEC archives or companyfacts caches. The separately shared 120-row pilot is the input for this milestone.
+- Raw/processed financials, generated records and the dedicated local database are ignored by Git. Teammates need the separately shared pilot or their own prepared source data.
+- Weeks 1–2 are implemented for the 10-company pilot: schema and relationships, quarterly import with original-row provenance, ratio view, covenant/rating policy, deterministic loans/covenants and initial ratings, query drafts and role design. See `WEEK2_COMPLETION.md` for verification and scope.
+- A dedicated PostgreSQL 16 project database is populated and reconciled. `scripts/setup_week2.sh` rebuilds a new empty database from the supplied pilot. This is a prepared-pilot path, not a general raw SEC importer.
+- Week 3 is also implemented for the pilot: 14 data-quality checks, covenant processing and watchlist trigger, rating assessments/audit, seven report views, two CTAS tables and monthly snapshots. See `WEEK3_COMPLETION.md`; 32 tests and a clean Weeks 1–3 rebuild pass.
+- Week 4 role grants and performance baselines, and later controlled optimization/final-report work remain pending. GitHub collaborator invitations and pushing local changes remain separate repository administration tasks.
 
 ## First decision
 
-PostgreSQL was selected by Aania on November 9, 2026. Core DDL, staging DDL, a ratio view, a schema setup script, and an initial ER diagram are now implemented. The importer and remaining application logic are pending.
+PostgreSQL was selected by Aania on November 9, 2026. The November 16 extension preserves her core DDL and adds a prepared-pilot importer, provenance and generation metadata. Original source fiscal labels remain available; reporting-date and filing-date semantics are explicit.
 
-## Next milestone: schema and a one-quarter import
+## Original foundation checklist and pilot disposition
+
+The original checklist below remains for traceability. The supplied pilot is now imported across all 120 observations. Raw SEC staging and expansion beyond the selected 10-company pilot remain future scope; the several-hundred-company proposal target has not been claimed as completed.
 
 1. Agree on financial ratios, accounting inputs, and covenant definitions across all three workstreams.
 2. Draw the ER diagram and define keys, constraints, and ownership for these proposed entities:
@@ -51,12 +55,12 @@ PostgreSQL was selected by Aania on November 9, 2026. Core DDL, staging DDL, a r
 | Halima Younus | Covenant/rating definitions; generated loans and covenants | Covenant testing function, breach/watchlist trigger, rating audit trigger |
 | Khush Mehta | Setup entry point, report query drafts, role design | Report views, CTAS/snapshots, roles, indexing, performance comparison |
 
-The proposal scheduled schema/ER design for November 2–6 and data loading, generation, and ratio views for November 9–13. Finish the schema milestone first because all workstreams depend on it.
+The proposal scheduled schema/ER design for November 2–6 and data loading, generation, and ratio views for November 9–13. The Week 3 extension implements the monitoring function/triggers and persisted report views/CTAS specified for November 16–20. Week 2 report drafts remain as historical deliverables; current reporting interfaces are documented in `week3_monitoring.md`. The role document is still a design, matching the Week 4 implementation schedule.
 
-## Remaining deliverables and acceptance checks
+## Deliverables and acceptance checks
 
 - Rebuild: a documented setup entry point creates the database objects and loads prepared data in dependency order; explain raw-data prerequisites and privileged role setup.
-- Risk monitoring: covenant function stores reproducible results; breaches create watchlist entries without duplicates; rating changes produce audit records.
+- Risk monitoring: implemented and verified in Week 3; covenant results are reproducible, breaches create distinct linked events without rerun duplicates, and rating mutations retain audits.
 - Reports: agree on daily, weekly, monthly, quarterly, and annual report queries and document their intended users.
 - Access: analyst, manager, executive, and auditor roles have explicit permissions, verified with allowed and denied operations.
 - Snapshots: CTAS tables or materialized views produce monthly portfolio snapshots with documented refresh behavior.

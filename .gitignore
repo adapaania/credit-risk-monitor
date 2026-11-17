@@ -3,3 +3,7 @@ data/processed/
 .DS_Store
 __pycache__/
 *.pyc
+data/local_postgres/
+data/local_socket/
+.env
+.venv/
