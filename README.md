@@ -1,43 +1,53 @@
 # Credit Risk Monitor
 
-A team project using SEC financial statement data to monitor credit risk.
+FE513 team project by Aania Adap, Halima Younus, and Khush Mehta.
 
-## Team
+We use SEC financial statements and generated loan data to demonstrate borrower monitoring. The pilot has 10 companies and 120 quarterly records with reporting dates in 2023–2025. Loans, covenants, and ratings are synthetic.
 
-- Aania Adap: data foundation
-- Halima Younus: risk monitoring
-- Khush Mehta: reporting and access control
+## First-time setup
 
-See [the implementation plan](docs/IMPLEMENTATION_PLAN.md) for proposal requirements and next steps.
+You need Python 3.11+, PostgreSQL 14+, and `psql` on your PATH. Run these commands from the repository folder.
 
-## Data source and coverage
+1. Get `pilot_10_financials.csv` from Aania and place it in `data/processed/`. Create that folder if needed. The CSV and database files are kept off GitHub.
+2. Start your PostgreSQL server. Create a new, empty database named `credit_risk` in pgAdmin, or run:
 
-Source: [SEC Financial Statement Data Sets](https://www.sec.gov/data-research/sec-markets-data/financial-statement-data-sets).
+   ```sh
+   createdb credit_risk
+   ```
 
-Coverage: 2023 Q1 through 2025 Q4 (three years, 12 quarters).
+3. Connect to that database and build the pilot:
 
-## Setup
+   ```sh
+   export DATABASE_URL=postgresql:///credit_risk
+   python3 scripts/project.py setup
+   ```
 
-1. Clone this repository to your computer.
-2. Run `python3 scripts/download_sec_data.py` (requires Python 3.11+ and curl) to download, verify, and extract all 12 quarters into `data/raw/<quarter>/`, for example `data/raw/2023q1/`. The script keeps the original ZIPs and writes a local SHA-256 download manifest.
-3. Install PostgreSQL 14 or later and start your local PostgreSQL service. Create a new empty database with `createdb credit_risk`.
-4. Run `DATABASE_URL=postgresql:///credit_risk sh scripts/setup.sh` to create the core tables, SEC staging tables, and ratio view. For a remote database, supply your connection URL through the environment; do not commit credentials.
-5. Optionally validate an empty initialized database with `psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 -f sql/check_schema.sql` after exporting `DATABASE_URL` in your shell. Test records are rolled back.
+   If your server uses another connection address, replace `DATABASE_URL` with that address. For a CSV in another folder, add `--csv /path/to/pilot_10_financials.csv`.
 
-The current setup creates database objects only. SEC loading, synthetic data generation, covenant functions/triggers, reports, and roles are the next milestones. Setup runs in a single transaction and fails safely if tables already exist; it does not drop or replace existing data.
+Setup creates the tables, imports financials, generates loans and covenants, and runs monitoring. It checks the results before reporting success. Pulling the code alone does not create or populate your database. Run setup only on an empty database; it does not erase existing tables. A failed build may leave earlier completed steps, so use a new empty database when retrying a failed setup.
 
-Raw data stays on each teammate's computer and is excluded from Git by `.gitignore`.
+## Check and use the database
 
-## Shortlist data quality
+Keep `DATABASE_URL` set in each terminal session.
 
-Run `python3 scripts/check_completeness.py` after downloading the data to audit the 50-company shortlist. Read [the completeness report](docs/data_quality/REPORT.md) and its accompanying company/filing CSVs and JSON scan log. This checks selected standard-tag availability, not fully normalized ratio readiness; debt definitions, duration conversion, and company-specific tags still require review.
-
-The [resolved audit](docs/data_quality/resolved/REPORT.md) supersedes the initial results: it adds SEC company-facts supplements, boundary filing batches, exact reporting dates, quarter normalization, and explicit sample decisions. Follow its reproduction instructions to create the local 120-row, 10-company pilot for current-ratio and interest-coverage work. Debt candidates remain subject to disclosure and lease-basis validation. Both raw and processed financial data stay local.
-
-## Project structure
-
-```text
-data/raw/   Local SEC files (ignored by Git)
-sql/        CREATE TABLE scripts, views, and triggers
-docs/       ER diagram and change log
+```sh
+python3 scripts/project.py check
+python3 -m unittest discover -s tests -v
+python3 scripts/project.py reports
 ```
+
+The tests use `data/processed/pilot_10_financials.csv` by default. Set `PILOT_CSV` if you keep it elsewhere. Database tests are skipped when `DATABASE_URL` is not set.
+
+For an existing pilot database, `python3 scripts/project.py monitor` installs or reruns monitoring. Repeated runs keep the same results rather than duplicating them. It also upgrades a loaded pilot that has the source and loan-generation tables. It does not import a missing CSV or load missing loans.
+
+## Team and project notes
+
+- [Tasks and remaining work](docs/IMPLEMENTATION_PLAN.md)
+- [CSV fields and source records](docs/data_mapping.md)
+- [Covenants and rating rules](docs/risk_policy.md) — proposed rules for Halima and the team to review
+- [Monitoring, reports, and optional local server](docs/monitoring.md)
+- [Planned database permissions](docs/role_design.md)
+- [ER diagram](docs/er_diagram.md) and [change log](docs/CHANGELOG.md)
+- [SEC data checks and download steps](docs/data_quality/resolved/REPORT.md)
+
+Debt-based covenants are disabled until debt amounts and lease treatment are checked. Role permissions and performance comparisons are still pending. This is a small pilot, not the several-hundred-company sample in the original proposal.

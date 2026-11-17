@@ -34,4 +34,26 @@ BEGIN
         RAISE EXCEPTION 'Zero denominator handling failed';
     END IF;
 END $$;
+UPDATE credit.financial_statements
+SET assets = -1, current_liabilities = -1, interest_expense = -1
+WHERE accession_number = 'test';
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM credit.financial_ratios
+               WHERE accession_number = 'test'
+                 AND (debt_to_assets IS NOT NULL OR current_ratio IS NOT NULL
+                      OR interest_coverage IS NOT NULL)) THEN
+        RAISE EXCEPTION 'Negative denominator handling failed';
+    END IF;
+END $$;
+UPDATE credit.financial_statements
+SET assets = 100, current_liabilities = 10, interest_expense = 3, operating_income = -12
+WHERE accession_number = 'test';
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM credit.financial_ratios
+                   WHERE accession_number = 'test' AND interest_coverage = -4) THEN
+        RAISE EXCEPTION 'Negative operating income must remain valid negative coverage';
+    END IF;
+END $$;
 ROLLBACK;
